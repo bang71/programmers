@@ -8,23 +8,16 @@ class Solution {
         while (!documents.isEmpty()) {
             val maxValue = documents.max()
 
-            if (documents.first() == maxValue) {
-                documents.removeAt(0)
-                answer++
-
-                if (currentLocation == 0) return answer
-                else {
-                    currentLocation--
-                }
-
-            } else {
+            while (documents.first() != maxValue) {
                 documents.add(documents.removeAt(0))
-                if (currentLocation == 0) {
-                    currentLocation = documents.count() - 1
-                } else {
-                    currentLocation--
-                }
+                if (currentLocation == 0) currentLocation = documents.count() - 1
+                else currentLocation--
             }
+
+            documents.removeAt(0)
+            answer++
+            if (currentLocation == 0) return answer
+            else currentLocation--
         }
 
         return answer
