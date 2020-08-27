@@ -4,18 +4,23 @@ class Solution {
 
         for (size in s.length / 2 downTo 1) {
             var length = s.length
-            var repeatedString = mutableMapOf<String, Int>()
+            var repeatedString = mutableMapOf<Int, Int>()
+            var keyNumber = 0
 
             s.chunked(size).reduce { acc, s ->
                 if (acc == s) {
-                    repeatedString[acc] = repeatedString.getOrDefault(acc, 0) + 1
+                    repeatedString[keyNumber] = repeatedString.getOrDefault(keyNumber, 1) + 1
+                } else {
+                    keyNumber++
                 }
                 s
             }
 
             if (repeatedString.isNotEmpty()) {
-                length += repeatedString.count()
-                length -= repeatedString.entries.sumBy { it.value } * size
+                repeatedString.forEach { 
+                    length += it.value.toString().length
+                    length -= (it.value - 1) * size
+                }
             }
             
             if (answer > length) answer = length
